@@ -36,7 +36,7 @@ public class ItemRepositoryTests {
         repository.saveAll(records);
     }
 
-    /* Menhapus semua record dari repository. */
+    /* Menghapus semua record dari repository. */
     @AfterEach
     public void clearRepo() {
         repository.deleteAll();
