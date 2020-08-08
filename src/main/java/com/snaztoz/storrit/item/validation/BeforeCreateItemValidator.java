@@ -35,7 +35,7 @@ public class BeforeCreateItemValidator implements Validator {
 
     /**
      * Memastikan bahwa Item memiliki nama, kode, dan nama satuan.
-     * Untuk nama dan item haruslah unik, edangkan untuk jumlah barang
+     * Untuk nama dan item haruslah unik, sedangkan untuk jumlah barang
      * tidak boleh negatif. 
      * 
      * @param target Object yang akan divalidasi (dalam kasus ini, instance dari Item).
