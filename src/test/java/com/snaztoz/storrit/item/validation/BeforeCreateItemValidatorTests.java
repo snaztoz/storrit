@@ -39,10 +39,11 @@ public class BeforeCreateItemValidatorTests {
         validator.validate(item, errors);
 
         Item anotherItem = new Item("telur", "123", Long.valueOf(10), "box");
-        Errors anotherErrors = new BeanPropertyBindingResult(anotherItem, "anotherErrors");
+        Errors anotherErrors = new BeanPropertyBindingResult(anotherItem, "anotherItem");
         validator.validate(item, errors);
 
         assertFalse(errors.hasGlobalErrors());
+        assertFalse(anotherErrors.hasGlobalErrors());
     }
 
     @Test
