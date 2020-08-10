@@ -1,19 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Storrit! &mdash; olah data barangmu dengan mudah</title>
+	<title>Storrit! &mdash; simpan data barangmu dengan mudah</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+
 	<script type="text/javascript" src="/js/jquery-3.5.1.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="/js/underscore.js"></script>
 	<script type="text/javascript" src="/js/backbone-1.4.0.js"></script>
+	<script type="text/javascript" src="/js/items-page.js" defer></script>
+
 </head>
 
 <body>
-	<h1 class="text-primary">Success</h1>
+	<div class="d-lg-flex" style="min-height:100vh; width: 100%">
+		<aside class="col-3 d-none d-lg-block bg-light py-5 px-0 shadow">
+			<h1 class="text-center" style="font-size: 4em">Storrit!</h1>
+			<p class="text-center"><i>simpan data barangmu dengan mudah</i></p>
+			<nav class="list-group mx-0" style="margin-top: 5rem">
+				<a class="list-group-item list-group-item-action active" href="#">Stok barang</a>
+				<a class="list-group-item list-group-item-action" href="#">Riwayat transaksi</a>
+			</nav>
+		</aside>
+
+		<main class="col p-lg-5">
+			<h1 class="mb-5">Stok Barang</h1>
+
+			<div id="site-items-page" class="carousel slide" data-interval="false">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Nama Barang</th>
+									<th scope="col">Kode Barang</th>
+									<th scope="col">Jumlah</th>
+								</tr>
+							</thead>
+							<tbody id="site-table-content">
+							<!--
+								<tr id="site-table-loading-rows">
+									<td class="text-center" colspan="4"><span class="m-0 spinner-border text-primary"></span></td>
+								</tr>
+							-->
+								<tr>
+									<th scope="row">1</th>
+									<td>Telur</td>
+									<td>01234</td>
+									<td>500 butir</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="carousel-item px-4">
+						<a id="site-edit-page-back-btn" class="btn btn-outline-secondary">&larr; Kembali</a>
+						<h4 class="my-4">Mengedit: Telur (#01234)</h4>
+					</div>
+				</div>
+			</div>
+
+		</main>
+	</div>
 </body>
 
 </html>
