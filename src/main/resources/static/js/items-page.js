@@ -35,7 +35,24 @@ item.Model = Backbone.Model.extend({
 		code: '',
 		amount: 0,
 		amountUnit: ''
-	}
+	},
+
+	/** Memvalidasi data sebelum dikirimkan ke server. */
+	validate: function(attrs, option) {
+		// semua field harus diisi
+		if ([attrs.name, attrs.code, attrs.amountUnit].includes('')) {
+			return 'empty-field';
+		}
+
+		if (Number.isNaN(attrs.amount)) {
+			return 'amount-not-a-number';
+		}
+
+		// jumlah tidak dapat negatif
+		if (attrs.amount < 0) {
+			return 'negative-amount';
+		}
+	},
 
 });
 
@@ -74,6 +91,8 @@ item.View = Backbone.View.extend({
 		'click #item-create-page-btn': 		'showCreatePage',
 
 		'click .item-table-page-back-btn': 	'showIndexPage',
+
+		'click #item-create-btn': 			'createItem',
 	},
 
 	/**
@@ -106,6 +125,8 @@ item.View = Backbone.View.extend({
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
 		this.listenTo(this.collection, 'change sync', this.renderRows);
+		this.listenTo(this.collection, 'error', this.displayServerErrors);
+		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
 		this.collection.fetch();
 
 		this.$el.carousel(item.INDEX_PAGE); // aktifkan carousel
@@ -150,6 +171,38 @@ item.View = Backbone.View.extend({
 	/** Berganti ke page update terkait item yang diklik. */
 	showUpdatePage: function() {
 		this.$el.carousel(item.UPDATE_PAGE);
+	},
+
+	/** Menyimpan item baru di server. */
+	createItem: function(event) {
+		event.preventDefault(); // mencegah form disubmit oleh browser
+
+		this.collection.create({
+			name: this.$('#item-name').val(),
+			code: this.$('#item-code').val(),
+			amount: parseInt(this.$('#item-amount').val()),
+			amountUnit: this.$('#item-amount-unit').val()
+		});
+	},
+
+	/**
+	 * Menampilkan pesan ketika terjadi error pada validasi sisi klien.
+	 *
+	 * BELUM DIIMPLEMENTASIKAN
+	 */
+	displayClientErrors: function(model) {
+		console.log("CLIENT ERROR");
+		console.log(model.validationError);
+	},
+
+	/**
+	 * Menampilkan pesan ketika terjadi error pada validasi sisi server.
+	 *
+	 * BELUM DIIMPLEMENTASIKAN
+	 */
+	displayServerErrors: function(obj) {
+		console.log("SERVER ERROR");
+		console.log(obj);
 	},
 
 });
