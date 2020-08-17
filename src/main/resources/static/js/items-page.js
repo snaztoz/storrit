@@ -44,6 +44,7 @@ item.Model = Backbone.Model.extend({
 			return 'empty-field';
 		}
 
+		// jumlah harus berupa angka (jika kosong dianggap sebagai NaN)
 		if (Number.isNaN(attrs.amount)) {
 			return 'amount-not-a-number';
 		}
