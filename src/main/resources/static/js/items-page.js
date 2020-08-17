@@ -154,7 +154,25 @@ item.View = Backbone.View.extend({
 			return this;
 		}
 
-		this.$('#item-table-content').html(this.template);
+		this.$('#item-table-content').html(''); // hapus isi sebelumnya
+
+		let counter = 1;
+		this.collection.each(model => {
+			let page = model.collection.responseData.page.number;
+			let pageSize = model.collection.responseData.page.size;
+
+			display = this.templateRowTable({
+				'no': (page * pageSize) + counter,
+				'name': model.attributes.name,
+				'code': model.attributes.code,
+				'amount': model.attributes.amount,
+				'amountUnit': model.attributes.amountUnit,
+			});
+
+			this.$('#item-table-content').append(display);
+			counter++;
+		});
+
 		return this;
 	},
 
