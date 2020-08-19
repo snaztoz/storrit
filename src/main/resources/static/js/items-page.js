@@ -125,8 +125,9 @@ item.View = Backbone.View.extend({
 	 */
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
+		//this.listenTo(this.collection, 'add', this.displayCreationSucceed);
 		this.listenTo(this.collection, 'change sync', this.renderRows);
-		this.listenTo(this.collection, 'error', this.displayServerErrors);
+		//this.listenTo(this.collection, 'error', this.displayServerErrors);
 		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
 		this.collection.fetch();
 
@@ -223,6 +224,12 @@ item.View = Backbone.View.extend({
 			code: this.$('#item-create-code').val(),
 			amount: parseInt(this.$('#item-create-amount').val()),
 			amountUnit: this.$('#item-create-amount-unit').val()
+		}, {
+			success: () => {
+				this.$el.carousel(item.INDEX_PAGE);
+				this.displayCreationSucceed;
+			},
+			error: this.displayServerErrors,
 		});
 	},
 
@@ -234,6 +241,15 @@ item.View = Backbone.View.extend({
 	displayClientErrors: function(model) {
 		console.log("CLIENT ERROR");
 		console.log(model.validationError);
+	},
+
+	/**
+	 * Menampilkan pesan ketika sebuah barang berhasil ditambahkan.
+	 *
+	 * BELUM DIIMPLEMENTASIKAN
+	 */
+	displayCreationSucceed: function() {
+		console.log("BARANG SUKSES DITAMBAHKAN");
 	},
 
 	/**
