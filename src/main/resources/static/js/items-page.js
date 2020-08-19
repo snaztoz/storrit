@@ -208,10 +208,10 @@ item.View = Backbone.View.extend({
 
 	/** Membersihkan isi-isi field dari create form. */
 	clearCreateForm: function() {
-		this.$('#item-name').val('');
-		this.$('#item-code').val('');
-		this.$('#item-amount').val('');
-		this.$('#item-amount-unit').val('');
+		this.$('#item-create-name').val('');
+		this.$('#item-create-code').val('');
+		this.$('#item-create-amount').val('');
+		this.$('#item-create-amount-unit').val('');
 	},
 
 	/** Menyimpan item baru di server. */
@@ -219,10 +219,10 @@ item.View = Backbone.View.extend({
 		event.preventDefault(); // mencegah form disubmit oleh browser
 
 		this.collection.create({
-			name: this.$('#item-name').val(),
-			code: this.$('#item-code').val(),
-			amount: parseInt(this.$('#item-amount').val()),
-			amountUnit: this.$('#item-amount-unit').val()
+			name: this.$('#item-create-name').val(),
+			code: this.$('#item-create-code').val(),
+			amount: parseInt(this.$('#item-create-amount').val()),
+			amountUnit: this.$('#item-create-amount-unit').val()
 		});
 	},
 
