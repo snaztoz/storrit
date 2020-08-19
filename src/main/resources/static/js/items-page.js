@@ -131,7 +131,7 @@ item.View = Backbone.View.extend({
 		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
 		this.collection.fetch();
 
-		this.$el.carousel(item.INDEX_PAGE); // aktifkan carousel
+		this.showIndexPage(); // aktifkan carousel
 	},
 
 	/**
@@ -166,7 +166,7 @@ item.View = Backbone.View.extend({
 			let name = model.attributes.name;
 			let code = model.attributes.code;
 
-			display = this.templateRowTable({
+			row = this.templateRowTable({
 				'no': (page * pageSize) + counter,
 				'name': name,
 				'code': code,
@@ -174,12 +174,12 @@ item.View = Backbone.View.extend({
 				'amountUnit': model.attributes.amountUnit,
 			});
 
-			let row = $(display).appendTo('#item-table-content');
+			let rowObj = $(row).appendTo('#item-table-content');
 
 			// setiap baris tabel langsung terikat dengan data yang dikandungnya,
 			// sehingga data yang akan ditampilkan pada update page tidak akan
 			// berubah meskipun data baris diganti melalui Inspect Element.
-			row.click(() => {
+			rowObj.click(() => {
 				this.$('#item-detail-identifiers').html(`${name} [#${code}]`);
 			});
 
@@ -211,7 +211,7 @@ item.View = Backbone.View.extend({
 	clearCreateForm: function() {
 		this.$('#item-create-name').val('');
 		this.$('#item-create-code').val('');
-		this.$('#item-create-amount').val('');
+		this.$('#item-create-amount').val('0');
 		this.$('#item-create-amount-unit').val('');
 	},
 
@@ -225,8 +225,9 @@ item.View = Backbone.View.extend({
 			amount: parseInt(this.$('#item-create-amount').val()),
 			amountUnit: this.$('#item-create-amount-unit').val()
 		}, {
+			validate: true,
 			success: () => {
-				this.$el.carousel(item.INDEX_PAGE);
+				this.showIndexPage();
 				this.displayCreationSucceed;
 			},
 			error: this.displayServerErrors,
@@ -240,7 +241,7 @@ item.View = Backbone.View.extend({
 	 */
 	displayClientErrors: function(model) {
 		console.log("CLIENT ERROR");
-		console.log(model.validationError);
+		console.log(model);
 	},
 
 	/**
@@ -248,7 +249,8 @@ item.View = Backbone.View.extend({
 	 *
 	 * BELUM DIIMPLEMENTASIKAN
 	 */
-	displayCreationSucceed: function() {
+	displayCreationSucceed: function(obj) {
+		console.log(obj);
 		console.log("BARANG SUKSES DITAMBAHKAN");
 	},
 
