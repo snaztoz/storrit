@@ -195,12 +195,23 @@ item.View = Backbone.View.extend({
 
 	/** Berganti ke page index dari item. */
 	showIndexPage: function() {
+		// clear create-item form fields
+		this.clearCreateForm();
+
 		this.$el.carousel(item.INDEX_PAGE);
 	},
 
 	/** Berganti ke page update terkait item yang diklik. */
 	showUpdatePage: function() {
 		this.$el.carousel(item.UPDATE_PAGE);
+	},
+
+	/** Membersihkan isi-isi field dari create form. */
+	clearCreateForm: function() {
+		this.$('#item-name').val('');
+		this.$('#item-code').val('');
+		this.$('#item-amount').val('');
+		this.$('#item-amount-unit').val('');
 	},
 
 	/** Menyimpan item baru di server. */
