@@ -162,15 +162,26 @@ item.View = Backbone.View.extend({
 			let page = model.collection.responseData.page.number;
 			let pageSize = model.collection.responseData.page.size;
 
+			let name = model.attributes.name;
+			let code = model.attributes.code;
+
 			display = this.templateRowTable({
 				'no': (page * pageSize) + counter,
-				'name': model.attributes.name,
-				'code': model.attributes.code,
+				'name': name,
+				'code': code,
 				'amount': model.attributes.amount,
 				'amountUnit': model.attributes.amountUnit,
 			});
 
-			this.$('#item-table-content').append(display);
+			let row = $(display).appendTo('#item-table-content');
+
+			// setiap baris tabel langsung terikat dengan data yang dikandungnya,
+			// sehingga data yang akan ditampilkan pada update page tidak akan
+			// berubah meskipun data baris diganti melalui Inspect Element.
+			row.click(() => {
+				this.$('#item-detail-identifiers').html(`${name} [#${code}]`);
+			});
+
 			counter++;
 		});
 
