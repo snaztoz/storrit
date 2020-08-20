@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Storrit! &mdash; simpan data barangmu dengan mudah</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+
+	<script type="text/javascript" src="/js/dependencies/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="/js/dependencies/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="/js/dependencies/underscore.js"></script>
+	<script type="text/javascript" src="/js/dependencies/backbone-1.4.0.js"></script>
+
+	<script type="text/javascript" src="/js/items-page.js" defer></script>
+	<script type="text/javascript" src="/js/sections-navigation.js" defer></script>
+
+</head>
+
+<body>
+	<div class="d-lg-flex" style="min-height:100vh; width: 100%">
+		<aside class="col-3 d-none d-lg-block bg-light py-5 px-0 shadow">
+			<h1 class="text-center" style="font-size: 4em">Storrit!</h1>
+			<p class="text-center"><i>simpan data barangmu dengan mudah</i></p>
+			<nav id="sections-navigator" class="list-group mx-0" style="margin-top: 5rem">
+				<a id="section-item" class="list-group-item list-group-item-action active" href="#">Stok barang</a>
+				<a id="section-activity" class="list-group-item list-group-item-action" href="#">Riwayat transaksi</a>
+			</nav>
+		</aside>
+
+		<main id="main-section" class="col p-lg-5">
+		</main>
+	</div>
+</body>
+
+<script type="text/template" id="item-page-template">
+	<h1 class="mb-4">Stok Barang</h1>
+
+	<div id="site-items-page" class="carousel slide" data-interval="false">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<a id="item-create-page-btn" class="btn btn-outline-primary" href="#">+ Tambah Barang</a>
+				<table class="table table-hover table-striped my-4">
+					<thead>
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col">Nama Barang</th>
+							<th scope="col">Kode Barang</th>
+							<th scope="col">Jumlah</th>
+						</tr>
+					</thead>
+					<tbody id="item-table-content">
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="carousel-item px-lg-4">
+				<a class="item-table-page-back-btn btn btn-outline-secondary">&larr; Kembali</a>
+				<h4 class="my-4">Mengedit: <span id="item-detail-identifiers"></span></h4>
+			</div>
+
+			<div class="carousel-item px-lg-4">
+				<a class="item-table-page-back-btn btn btn-outline-secondary">&larr; Kembali</a>
+
+				<h4 class="my-4">Menambahkan barang baru ke penyimpanan</h4>
+				<form class="col-sm-8">
+					<div class="form-group">
+						<label for="item-name">Nama barang</label>
+						<input type="text" id="item-create-name" class="form-control" name="item-create-name" placeholder="nama">
+					</div>
+
+					<div class="form-group">
+						<label for="item-code">Kode barang</label>
+						<input type="text" id="item-create-code" class="form-control" name="item-create-code" placeholder="kode" aria-describedBy="itemCodeHelp">
+						<small id="itemCodeHelp" class="form-text text-muted">Secara default, kode untuk barang ini adalah ...</small>
+					</div>
+
+					<label for="item-amount">Jumlah barang</label>
+					<div class="form-group form-row">
+						<div class="col-8">
+							<input type="text" id="item-create-amount" class="form-control" name="item-create-amount" placeholder="jumlah">
+						</div>
+						<div class="col-4">
+							<input type="text" id="item-create-amount-unit" class="form-control" name="item-create-amount-unit" placeholder="satuan">
+						</div>
+					</div>
+
+					<button type="submit" id="item-create-btn" class="btn btn-primary mt-3">Tambahkan Barang</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="item-page-table-row-template">
+	<tr class="item-table-row">
+		<th scope="row"><%= no %></th>
+		<td><%= name %></td>
+		<td><%= code %></td>
+		<td><%= amount %> <%= amountUnit %></td>
+	</tr>
+</script>
+
+<script type="text/template" id="item-page-table-loading-template">
+	<tr>
+		<td class="text-center" colspan="4"><span class="m-0 spinner-border text-primary"></span></td>
+	</tr>
+</script>
+
+<script type="text/template" id="item-page-table-no-data-template">
+	<tr id="item-table-no-data-row">
+		<td class="text-center" colspan="4">Belum ada data</td>
+	</tr>
+</script>
+
+</html>
