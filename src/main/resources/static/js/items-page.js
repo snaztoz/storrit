@@ -83,12 +83,12 @@ item.View = Backbone.View.extend({
 	el: '#site-items-page',
 
 	events: {
-		'click .item-table-row': 			'showUpdatePage',
-		'click #item-create-page-btn': 		'showCreatePage',
+		'click .item-table-row':            'showUpdatePage',
+		'click #item-create-page-btn':      'showCreatePage',
 
-		'click .item-table-page-back-btn': 	'showIndexPage',
+		'click .item-table-page-back-btn':  'showIndexPage',
 
-		'click #item-create-btn': 			'createItem',
+		'click #item-create-btn':           'createItem',
 	},
 
 	/**
