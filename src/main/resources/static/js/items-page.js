@@ -1,8 +1,3 @@
-/* ===================== Memuat Data Barang =====================
- *
- * Untuk mengambil data-data barang dari server.
- */
-
 /**
  * Namespace untuk script page-page items. Keyword var digunakan agar
  * script lain dapat mengakses object ini.
