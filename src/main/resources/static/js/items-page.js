@@ -92,25 +92,11 @@ item.View = Backbone.View.extend({
 	},
 
 	/**
-	 * Main template untuk view ini, yakni template utama yang memuat
-	 * semua page untuk section item.
-	 */
-	template: _.template($('#item-page-template').html()),
-
-	/** Template untuk baris yang menampilkan tulisan 'tidak ada data'. */
-	templateEmptyTable: _.template($('#item-page-table-no-data-template').html()),
-
-	/** Template spinner ketika data pada tabel masih dimuat. */
-	templateLoadingTable: _.template($('#item-page-table-loading-template').html()),
-
-	/** Template untuk tiap baris dari tabel. */
-	templateRowTable: _.template($('#item-page-table-row-template').html()),
-
-	/**
 	 * Render item section sebelum event-event terkait section ini dikaitkan
 	 * dengan para handlernya.
 	 */
 	preinitialize: function() {
+		this.templates = item.templates; // memasukkan item.templates ke class ini
 		this.render();
 	},
 
@@ -134,20 +120,20 @@ item.View = Backbone.View.extend({
 	 * termasuk juga page update dan juga create).
 	 */
 	render: function() {
-		$('#main-section').html(this.template);
+		$('#main-section').html(this.templates.main);
 		return this;
 	},
 
 	/** Menampilkan ikon loading. */
 	renderLoading: function() {
-		this.$('#item-table-content').html(this.templateLoadingTable);
+		this.$('#item-table-content').html(this.templates.tableLoading);
 		return this;
 	},
 
 	/** Menampilkan tiap data yang ada di dalam collection. */
 	renderRows: function() {
 		if (this.collection.length === 0) {
-			this.$('#item-table-content').html(this.templateEmptyTable);
+			this.$('#item-table-content').html(this.templates.tableEmpty);
 			return this;
 		}
 
@@ -161,7 +147,7 @@ item.View = Backbone.View.extend({
 			let name = model.attributes.name;
 			let code = model.attributes.code;
 
-			row = this.templateRowTable({
+			row = this.templates.tableRow({
 				'no': (page * pageSize) + counter,
 				'name': name,
 				'code': code,
@@ -260,6 +246,28 @@ item.View = Backbone.View.extend({
 	},
 
 });
+
+/**
+ * Template-template yang digunakan di dalam item view.
+ */
+item.templates = {
+
+	/**
+	 * Main template untuk view ini, yakni template utama yang memuat
+	 * semua page untuk section item.
+	 */
+	main: _.template($('#item-page-template').html()),
+
+	/** Template untuk baris yang menampilkan tulisan 'tidak ada data'. */
+	tableEmpty: _.template($('#item-page-table-no-data-template').html()),
+
+	/** Template spinner ketika data pada tabel masih dimuat. */
+	tableLoading: _.template($('#item-page-table-loading-template').html()),
+
+	/** Template untuk tiap baris dari tabel. */
+	tableRow: _.template($('#item-page-table-row-template').html()),
+
+};
 
 // Collection ini harus dapat diakses secara global agar ketika instance
 // dari item.View dibuat di dalam script lain (misal sections-navigation.js),
