@@ -245,9 +245,7 @@ item.View = Backbone.View.extend({
 
 });
 
-/**
- * Template-template yang digunakan di dalam item view.
- */
+/** Template-template yang digunakan di dalam item view. */
 item.templates = {
 
 	/**
