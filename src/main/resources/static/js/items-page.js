@@ -106,9 +106,7 @@ item.View = Backbone.View.extend({
 	 */
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
-		//this.listenTo(this.collection, 'add', this.displayCreationSucceed);
 		this.listenTo(this.collection, 'change sync', this.renderRows);
-		//this.listenTo(this.collection, 'error', this.displayServerErrors);
 		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
 		this.collection.fetch();
 
