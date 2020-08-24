@@ -83,10 +83,9 @@ item.View = Backbone.View.extend({
 	el: '#site-items-page',
 
 	events: {
-		'click .item-table-row':            'showUpdatePage',
-		'click #item-create-page-btn':      'showCreatePage',
-
-		'click .item-table-page-back-btn':  'showIndexPage',
+		'click .item-table-row':            function() {this.pages.update.call(this)},
+		'click #item-create-page-btn':      function() {this.pages.create.call(this)},
+		'click .item-table-page-back-btn':  function() {this.pages.index.call(this)},
 
 		'click #item-create-btn':           'createItem',
 	},
@@ -96,6 +95,7 @@ item.View = Backbone.View.extend({
 	 * dengan para handlernya.
 	 */
 	preinitialize: function() {
+		this.pages = item.pages;
 		this.templates = item.templates; // memasukkan item.templates ke class ini
 		this.render();
 	},
@@ -110,7 +110,7 @@ item.View = Backbone.View.extend({
 		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
 		this.collection.fetch();
 
-		this.showIndexPage(); // aktifkan carousel
+		this.pages.index.call(this); // aktifkan carousel
 	},
 
 	/**
@@ -168,32 +168,6 @@ item.View = Backbone.View.extend({
 		return this;
 	},
 
-	/** Berganti ke page create new item. */
-	showCreatePage: function() {
-		this.$el.carousel(item.CREATE_PAGE);
-	},
-
-	/** Berganti ke page index dari item. */
-	showIndexPage: function() {
-		// clear create-item form fields
-		this.clearCreateForm();
-
-		this.$el.carousel(item.INDEX_PAGE);
-	},
-
-	/** Berganti ke page update terkait item yang diklik. */
-	showUpdatePage: function() {
-		this.$el.carousel(item.UPDATE_PAGE);
-	},
-
-	/** Membersihkan isi-isi field dari create form. */
-	clearCreateForm: function() {
-		this.$('#item-create-name').val('');
-		this.$('#item-create-code').val('');
-		this.$('#item-create-amount').val('0');
-		this.$('#item-create-amount-unit').val('');
-	},
-
 	/** Menyimpan item baru di server. */
 	createItem: function(event) {
 		event.preventDefault(); // mencegah form disubmit oleh browser
@@ -206,7 +180,7 @@ item.View = Backbone.View.extend({
 		}, {
 			validate: true,
 			success: () => {
-				this.showIndexPage();
+				this.pages.index.call(this);
 				this.displayCreationSucceed;
 			},
 			error: this.displayServerErrors,
@@ -244,6 +218,37 @@ item.View = Backbone.View.extend({
 	},
 
 });
+
+/** Halaman-halaman di dalam bagian item. */
+item.pages = {
+
+	/** Berganti ke page create new item. */
+	create: function() {
+		this.$el.carousel(item.CREATE_PAGE);
+	},
+
+	/** Berganti ke page index dari item. */
+	index: function(view) {
+		// clear create-item form fields
+		this.pages.clearCreateForm.call(this);
+
+		this.$el.carousel(item.INDEX_PAGE);
+	},
+
+	/** Berganti ke page update terkait item yang diklik. */
+	update: function() {
+		this.$el.carousel(item.UPDATE_PAGE);
+	},
+
+	/** Membersihkan isi-isi field dari create form. */
+	clearCreateForm: function() {
+		this.$('#item-create-name').val('');
+		this.$('#item-create-code').val('');
+		this.$('#item-create-amount').val('0');
+		this.$('#item-create-amount-unit').val('');
+	},
+
+};
 
 /** Template-template yang digunakan di dalam item view. */
 item.templates = {
