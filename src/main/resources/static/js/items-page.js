@@ -229,7 +229,7 @@ item.pages = {
 
 	/** Berganti ke page index dari item. */
 	index: function(view) {
-		// clear create-item form fields
+		// membersihkan form-form ketika berpindah ke page index.
 		this.pages.clearCreateForm.call(this);
 
 		this.$el.carousel(item.INDEX_PAGE);
