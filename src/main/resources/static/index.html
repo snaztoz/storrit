@@ -57,7 +57,18 @@
 
 			<div class="carousel-item px-lg-4">
 				<a class="item-table-page-back-btn btn btn-outline-secondary">&larr; Kembali</a>
-				<h4 class="my-4">Mengedit: <span id="item-detail-identifiers"></span></h4>
+
+				<h4 class="my-4">Mengedit: <span id="item-update-identifiers"></span></h4>
+				<form class="container">
+					<label for="item-update-amount">Jumlah barang</label>
+					<div class="form-group d-flex align-items-center">
+						<input type="text" id="item-update-amount" name="item-update-amount"
+							placeholder="jumlah" class="form-control col-6 col-sm-4" >
+						<span class="ml-2" id="item-update-amount-unit"></span>
+					</div>
+
+					<button type="submit" id="item-update-button" class="btn btn-primary mt-3">Simpan Perubahan</button>
+				</form>
 			</div>
 
 			<div class="carousel-item px-lg-4">

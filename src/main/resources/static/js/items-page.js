@@ -144,13 +144,15 @@ item.View = Backbone.View.extend({
 
 			let name = model.attributes.name;
 			let code = model.attributes.code;
+			let amount = model.attributes.amount;
+			let amountUnit = model.attributes.amountUnit;
 
 			row = this.templates.tableRow({
 				'no': (page * pageSize) + counter,
 				'name': name,
 				'code': code,
-				'amount': model.attributes.amount,
-				'amountUnit': model.attributes.amountUnit,
+				'amount': amount,
+				'amountUnit': amountUnit,
 			});
 
 			let rowObj = $(row).appendTo('#item-table-content');
@@ -159,7 +161,9 @@ item.View = Backbone.View.extend({
 			// sehingga data yang akan ditampilkan pada update page tidak akan
 			// berubah meskipun data baris diganti melalui Inspect Element.
 			rowObj.click(() => {
-				this.$('#item-detail-identifiers').html(`${name} [#${code}]`);
+				this.$('#item-update-identifiers').html(`${name} [#${code}]`);
+				this.$('#item-update-amount').val(`${amount}`);
+				this.$('#item-update-amount-unit').html(amountUnit);
 			});
 
 			counter++;
