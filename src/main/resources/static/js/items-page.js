@@ -88,6 +88,7 @@ item.View = Backbone.View.extend({
 		'click .item-table-page-back-btn':  function() {this.pages.index.call(this)},
 
 		'click #item-create-btn':           'createItem',
+		'click #item-update-btn':           'updateItem',
 	},
 
 	/**
@@ -189,6 +190,12 @@ item.View = Backbone.View.extend({
 			},
 			error: this.displayServerErrors,
 		});
+	},
+
+	updateItem: function(event) {
+		event.preventDefault();
+
+		console.log("UPDATING");
 	},
 
 	/**
