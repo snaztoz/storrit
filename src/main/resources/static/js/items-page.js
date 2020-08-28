@@ -196,7 +196,7 @@ item.View = Backbone.View.extend({
 		});
 	},
 
-	// Mengupdate data item di server
+	// Mengupdate data item di server.
 	updateItem: function(event) {
 		event.preventDefault();
 
