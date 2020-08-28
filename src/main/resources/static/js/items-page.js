@@ -1,28 +1,23 @@
-/**
- * Namespace untuk script page-page items. Keyword var digunakan agar
- * script lain dapat mengakses object ini.
- *
- * (contoh, lihat script sections-navigation.js).
- */
+// Namespace untuk script page-page items. Keyword var digunakan agar
+// script lain dapat mengakses object ini.
+//
+// (contoh, lihat script sections-navigation.js).
+//
 var item = {};
 
-/* URL dari API yang digunakan untuk mengambil data barang. */
+// URL dari API yang digunakan untuk mengambil data barang.
 item.API_URL = '/items';
 
-/**
- * Page-page yang ada pada bagian item. Angka-angka berikut merupakan
- * representasi dari urutan page pada frame carousel.
- *
- * Secara default yang akan ditampilkan ketika aplikasi pertama kali
- * dimuat adalah INDEX_PAGE.
- */
+// Page-page yang ada pada bagian item. Angka-angka berikut merupakan
+// representasi dari urutan page pada frame carousel.
+//
+// Secara default yang akan ditampilkan ketika aplikasi pertama kali
+// dimuat adalah INDEX_PAGE.
 item.INDEX_PAGE = 0;
 item.UPDATE_PAGE = 1;
 item.CREATE_PAGE = 2;
 
-/**
- * Model dasar untuk tiap Item.
- */
+// Model dasar untuk tiap Item.
 item.Model = Backbone.Model.extend({
 
 	defaults: {
@@ -46,7 +41,7 @@ item.Model = Backbone.Model.extend({
 		});
 	},
 
-	/** Memvalidasi data sebelum dikirimkan ke server. */
+	// Memvalidasi data sebelum dikirimkan ke server.
 	validate: function(attrs, option) {
 		// semua field harus diisi
 		if ([attrs.name, attrs.code, attrs.amountUnit].includes('')) {
@@ -66,24 +61,18 @@ item.Model = Backbone.Model.extend({
 
 });
 
-/**
- * Kumpulan dari banyak model Item.
- */
+// Kumpulan dari banyak model Item.
 item.Collection = Backbone.Collection.extend({
 
 	model: item.Model,
 
-	/**
-	 * Attribute ini menyimpan model sesuai dengan row yang diklik dari
-	 * table item.
-	 * Digunakan ketika ingin mengupdate/menghapus data barang.
-	 */
+	// Attribute ini menyimpan model sesuai dengan row yang diklik dari
+	// table item.
+	// Digunakan ketika ingin mengupdate/menghapus data barang.
 	selectedModel: 0,
 
-	/**
-	 * Data terbaru yang didapatkan dari respon permintaan Ajax yang
-	 * dikirim oleh collection ini.
-	 */
+	// Data terbaru yang didapatkan dari respon permintaan Ajax yang
+	// dikirim oleh collection ini.
 	responseData: {},
 
 	url: item.API_URL,
@@ -95,10 +84,8 @@ item.Collection = Backbone.Collection.extend({
 
 });
 
-/**
- * View yang dibuat khusus untuk menghandle event-event terkait
- * collection dari items.
- */
+// View yang dibuat khusus untuk menghandle event-event terkait
+// collection dari items.
 item.View = Backbone.View.extend({
 
 	el: '#site-items-page',
@@ -112,20 +99,16 @@ item.View = Backbone.View.extend({
 		'click #item-update-btn':           'updateItem',
 	},
 
-	/**
-	 * Render item section sebelum event-event terkait section ini dikaitkan
-	 * dengan para handlernya.
-	 */
+	// Render item section sebelum event-event terkait section ini dikaitkan
+	// dengan para handlernya.
 	preinitialize: function() {
 		this.pages = item.pages;
 		this.templates = item.templates; // memasukkan item.templates ke class ini
 		this.render();
 	},
 
-	/**
-	 * Akan dijalankan ketika instance dari view ini pertama kali
-	 * dibuat.
-	 */
+	// Akan dijalankan ketika instance dari view ini pertama kali
+	// dibuat.
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
 		this.listenTo(this.collection, 'change sync', this.renderRows);
@@ -135,22 +118,20 @@ item.View = Backbone.View.extend({
 		this.pages.index.call(this); // aktifkan carousel
 	},
 
-	/**
-	 * Fungsi render utama yang akan memuat item section (selain index,
-	 * termasuk juga page update dan juga create).
-	 */
+	// Fungsi render utama yang akan memuat item section (selain index,
+	// termasuk juga page update dan juga create).
 	render: function() {
 		$('#main-section').html(this.templates.main);
 		return this;
 	},
 
-	/** Menampilkan ikon loading. */
+	// Menampilkan ikon loading.
 	renderLoading: function() {
 		this.$('#item-table-content').html(this.templates.tableLoading);
 		return this;
 	},
 
-	/** Menampilkan tiap data yang ada di dalam collection. */
+	// Menampilkan tiap data yang ada di dalam collection.
 	renderRows: function() {
 		if (this.collection.length === 0) {
 			this.$('#item-table-content').html(this.templates.tableEmpty);
@@ -196,7 +177,7 @@ item.View = Backbone.View.extend({
 		return this;
 	},
 
-	/** Menyimpan item baru di server. */
+	// Menyimpan item baru di server.
 	createItem: function(event) {
 		event.preventDefault(); // mencegah form disubmit oleh browser
 
@@ -215,6 +196,7 @@ item.View = Backbone.View.extend({
 		});
 	},
 
+	// Mengupdate data item di server
 	updateItem: function(event) {
 		event.preventDefault();
 
@@ -238,31 +220,25 @@ item.View = Backbone.View.extend({
 		});
 	},
 
-	/**
-	 * Menampilkan pesan ketika terjadi error pada validasi sisi klien.
-	 *
-	 * BELUM DIIMPLEMENTASIKAN
-	 */
+	// Menampilkan pesan ketika terjadi error pada validasi sisi klien.
+	//
+	// BELUM DIIMPLEMENTASIKAN
 	displayClientErrors: function(model) {
 		console.log("CLIENT ERROR");
 		console.log(model);
 	},
 
-	/**
-	 * Menampilkan pesan ketika sebuah barang berhasil ditambahkan.
-	 *
-	 * BELUM DIIMPLEMENTASIKAN
-	 */
+	// Menampilkan pesan ketika sebuah barang berhasil ditambahkan.
+	//
+	// BELUM DIIMPLEMENTASIKAN
 	displayCreationSucceed: function(obj) {
 		console.log(obj);
 		console.log("BARANG SUKSES DITAMBAHKAN");
 	},
 
-	/**
-	 * Menampilkan pesan ketika terjadi error pada validasi sisi server.
-	 *
-	 * BELUM DIIMPLEMENTASIKAN
-	 */
+	// Menampilkan pesan ketika terjadi error pada validasi sisi server.
+	//
+	// BELUM DIIMPLEMENTASIKAN
 	displayServerErrors: function(obj) {
 		console.log("SERVER ERROR");
 		console.log(obj);
@@ -270,15 +246,15 @@ item.View = Backbone.View.extend({
 
 });
 
-/** Halaman-halaman di dalam bagian item. */
+// Halaman-halaman di dalam bagian item.
 item.pages = {
 
-	/** Berganti ke page create new item. */
+	// Berganti ke page create new item.
 	create: function() {
 		this.$el.carousel(item.CREATE_PAGE);
 	},
 
-	/** Berganti ke page index dari item. */
+	// Berganti ke page index dari item.
 	index: function(view) {
 		// membersihkan form-form ketika berpindah ke page index.
 		this.pages.clearCreateForm.call(this);
@@ -286,12 +262,12 @@ item.pages = {
 		this.$el.carousel(item.INDEX_PAGE);
 	},
 
-	/** Berganti ke page update terkait item yang diklik. */
+	// Berganti ke page update terkait item yang diklik.
 	update: function() {
 		this.$el.carousel(item.UPDATE_PAGE);
 	},
 
-	/** Membersihkan isi-isi field dari create form. */
+	// Membersihkan isi-isi field dari create form.
 	clearCreateForm: function() {
 		this.$('#item-create-name').val('');
 		this.$('#item-create-code').val('');
@@ -301,22 +277,20 @@ item.pages = {
 
 };
 
-/** Template-template yang digunakan di dalam item view. */
+// Template-template yang digunakan di dalam item view.
 item.templates = {
 
-	/**
-	 * Main template untuk view ini, yakni template utama yang memuat
-	 * semua page untuk section item.
-	 */
+	// Main template untuk view ini, yakni template utama yang memuat
+	// semua page untuk section item.
 	main: _.template($('#item-page-template').html()),
 
-	/** Template untuk baris yang menampilkan tulisan 'tidak ada data'. */
+	// Template untuk baris yang menampilkan tulisan 'tidak ada data'.
 	tableEmpty: _.template($('#item-page-table-no-data-template').html()),
 
-	/** Template spinner ketika data pada tabel masih dimuat. */
+	// Template spinner ketika data pada tabel masih dimuat.
 	tableLoading: _.template($('#item-page-table-loading-template').html()),
 
-	/** Template untuk tiap baris dari tabel. */
+	// Template untuk tiap baris dari tabel.
 	tableRow: _.template($('#item-page-table-row-template').html()),
 
 };
