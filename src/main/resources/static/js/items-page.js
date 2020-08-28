@@ -32,6 +32,20 @@ item.Model = Backbone.Model.extend({
 		amountUnit: ''
 	},
 
+	parse: function(response, options) {
+		link = response._links.self.href;
+		id = parseInt(link.substring(link.lastIndexOf('/') + 1));
+
+		// memasang attribute id pada model
+		this.set('id', id);
+		return ({
+			name: response.name,
+			code: response.code,
+			amount: response.amount,
+			amountUnit: response.amountUnit,
+		});
+	},
+
 	/** Memvalidasi data sebelum dikirimkan ke server. */
 	validate: function(attrs, option) {
 		// semua field harus diisi
@@ -58,6 +72,13 @@ item.Model = Backbone.Model.extend({
 item.Collection = Backbone.Collection.extend({
 
 	model: item.Model,
+
+	/**
+	 * Attribute ini menyimpan model sesuai dengan row yang diklik dari
+	 * table item.
+	 * Digunakan ketika ingin mengupdate/menghapus data barang.
+	 */
+	selectedModel: 0,
 
 	/**
 	 * Data terbaru yang didapatkan dari respon permintaan Ajax yang
@@ -162,6 +183,8 @@ item.View = Backbone.View.extend({
 			// sehingga data yang akan ditampilkan pada update page tidak akan
 			// berubah meskipun data baris diganti melalui Inspect Element.
 			rowObj.click(() => {
+				// menandai model yang dipilih
+				this.collection.selectedModel = model;
 				this.$('#item-update-identifiers').html(`${name} [#${code}]`);
 				this.$('#item-update-amount').val(`${amount}`);
 				this.$('#item-update-amount-unit').html(amountUnit);
@@ -195,7 +218,24 @@ item.View = Backbone.View.extend({
 	updateItem: function(event) {
 		event.preventDefault();
 
-		console.log("UPDATING");
+		let newAmount = parseInt(this.$('#item-update-amount').val());
+
+		// mencegah menyimpan data yang tidak berubah
+		if (newAmount === this.collection.selectedModel.attributes.amount) {
+			console.log("This is the same");
+			return;
+		}
+
+		this.collection.selectedModel.save({amount: newAmount}, {
+			patch: true,
+			success: () => {
+				this.pages.index.call(this);
+			},
+			error: (resp) => {
+				console.log("Update failed");
+				console.log(resp);
+			}
+		});
 	},
 
 	/**
