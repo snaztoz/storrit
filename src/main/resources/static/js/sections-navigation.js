@@ -30,7 +30,7 @@ navigation.View = Backbone.View.extend({
 		if (this.currentView != null) {
 			this.currentView.remove();
 		}
-		this.currentView = new item.View({collection: itemCollection});
+		this.currentView = new item.View({collection: new item.Collection()});
 	},
 
 	// Membuat instance dari activity.View yang kemudian akan merender

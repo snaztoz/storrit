@@ -293,8 +293,3 @@ item.templates = {
 	tableRow: _.template($('#item-page-table-row-template').html()),
 
 };
-
-// Collection ini harus dapat diakses secara global agar ketika instance
-// dari item.View dibuat di dalam script lain (misal sections-navigation.js),
-// view tersebut dapat dipasangkan dengan collection ini.
-var itemCollection = new item.Collection();
