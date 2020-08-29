@@ -102,6 +102,7 @@ item.View = Backbone.View.extend({
 	// Render item section sebelum event-event terkait section ini dikaitkan
 	// dengan para handlernya.
 	preinitialize: function() {
+		this.errors = item.errors;
 		this.pages = item.pages;
 		this.templates = item.templates; // memasukkan item.templates ke class ini
 		this.render();
@@ -112,7 +113,7 @@ item.View = Backbone.View.extend({
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
 		this.listenTo(this.collection, 'change sync', this.renderRows);
-		this.listenTo(this.collection, 'invalid', this.displayClientErrors);
+		this.listenTo(this.collection, 'invalid', this.errors.invalidInput);
 		this.collection.fetch();
 
 		this.pages.index.call(this); // aktifkan carousel
@@ -186,12 +187,13 @@ item.View = Backbone.View.extend({
 			amount: parseInt(this.$('#item-create-amount').val()),
 			amountUnit: this.$('#item-create-amount-unit').val()
 		}, {
-			validate: true,
 			success: () => {
 				this.pages.index.call(this);
 				this.displayCreationSucceed;
 			},
-			error: this.displayServerErrors,
+			error: (err) => {
+				console.log(err);
+			},
 		});
 	},
 
@@ -219,14 +221,6 @@ item.View = Backbone.View.extend({
 		});
 	},
 
-	// Menampilkan pesan ketika terjadi error pada validasi sisi klien.
-	//
-	// BELUM DIIMPLEMENTASIKAN
-	displayClientErrors: function(model) {
-		console.log("CLIENT ERROR");
-		console.log(model);
-	},
-
 	// Menampilkan pesan ketika sebuah barang berhasil ditambahkan.
 	//
 	// BELUM DIIMPLEMENTASIKAN
@@ -244,6 +238,35 @@ item.View = Backbone.View.extend({
 	},
 
 });
+
+// Kasus error yang mungkin terjadi pada item section.
+item.errors = {
+
+	// Menangani error terkait input yang gagal melewati validasi
+	// (validasi sisi klien, bukan server).
+	invalidInput: function(model) {
+		const page = this.$('div.active').index();
+
+		if (page === item.CREATE_PAGE) {
+			this.errors.invalidCreate(model.validationError);
+		} else if (page === item.UPDATE_PAGE) {
+			this.errors.invalidUpdate(model.validationError);
+		}
+	},
+
+	// Menangani error pada validasi sisi klien ketika ingin membuat
+	// barang baru di server.
+	invalidCreate: function(err) {
+		console.log(err);
+	},
+
+	// Menangani error pada validasi sisi klien ketika ingin mengupdate
+	// data barang di server.
+	invalidUpdate: function(err) {
+		console.log(err);
+	},
+
+};
 
 // Halaman-halaman di dalam bagian item.
 item.pages = {
