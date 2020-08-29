@@ -27,6 +27,9 @@ navigation.View = Backbone.View.extend({
 	// Membuat instance dari item.View yang kemudian akan merender page-
 	// page dari item section melalui method initialize()-nya.
 	renderItemSection: function() {
+		if (this.currentView != null) {
+			this.currentView.remove();
+		}
 		this.currentView = new item.View({collection: itemCollection});
 	},
 

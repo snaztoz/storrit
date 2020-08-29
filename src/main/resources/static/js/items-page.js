@@ -137,14 +137,13 @@ item.View = Backbone.View.extend({
 			this.$('#item-table-content').html(this.templates.tableEmpty);
 			return this;
 		}
-
 		this.$('#item-table-content').html(''); // hapus isi sebelumnya
+
+		const page = this.collection.responseData.page.number;
+		const pageSize = this.collection.responseData.page.size;
 
 		let counter = 1;
 		this.collection.each(model => {
-			let page = model.collection.responseData.page.number;
-			let pageSize = model.collection.responseData.page.size;
-
 			let name = model.attributes.name;
 			let code = model.attributes.code;
 			let amount = model.attributes.amount;
