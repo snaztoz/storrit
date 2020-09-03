@@ -187,6 +187,7 @@ item.View = Backbone.View.extend({
 			amount: parseInt(this.$('#item-create-amount').val()),
 			amountUnit: this.$('#item-create-amount-unit').val()
 		}, {
+			validate: true,
 			success: () => {
 				this.pages.index.call(this);
 				this.displayCreationSucceed;
@@ -244,13 +245,13 @@ item.errors = {
 
 	// Menangani error terkait input yang gagal melewati validasi
 	// (validasi sisi klien, bukan server).
-	invalidInput: function(model) {
+	invalidInput: function(model, err) {
 		const page = this.$('div.active').index();
 
 		if (page === item.CREATE_PAGE) {
-			this.errors.invalidCreate(model.validationError);
+			this.errors.invalidCreate(err);
 		} else if (page === item.UPDATE_PAGE) {
-			this.errors.invalidUpdate(model.validationError);
+			this.errors.invalidUpdate(err);
 		}
 	},
 
