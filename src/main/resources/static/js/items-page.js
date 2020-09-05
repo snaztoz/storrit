@@ -286,7 +286,7 @@ item.errors = {
 			err.field = 'amount';
 		}
 
-		this.$(`#item-${err.field}-error`).html(errMsg);
+		this.$(`#item-create-${err.field}-error`).html(errMsg);
 	},
 
 	// Menangani error pada validasi sisi klien ketika ingin mengupdate
@@ -299,7 +299,7 @@ item.errors = {
 	clear: function() {
 		const fields = ['name', 'code', 'amount'];
 		fields.forEach(field => {
-			this.$(`#item-${field}-error`).html('');
+			this.$(`#item-create-${field}-error`).html('');
 		});
 	}
 
