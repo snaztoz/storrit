@@ -276,8 +276,8 @@ item.errors = {
 		let errMsg;
 
 		if (err.error === 'empty-field')        { errMsg = 'Tidak boleh kosong'; }
-		else if (err.error === 'not-a-number')  { errMsg = 'Jumlah harus angka'; }
-		else if (err.error === 'negative')      { errMsg = 'Jumlah tidak boleh negatif'; }
+		else if (err.error === 'not-a-number')  { errMsg = 'Jumlah harus berupa angka'; }
+		else if (err.error === 'negative')      { errMsg = 'Jumlah tidak dapat negatif'; }
 
 		// karena field amountUnit menempel pada amount, sehingga error
 		// yang terjadi di antara keduanya akan ditampilkan dalam satu
