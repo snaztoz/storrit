@@ -194,6 +194,7 @@ item.View = Backbone.View.extend({
 	// Menyimpan item baru di server.
 	createItem: function(event) {
 		event.preventDefault(); // mencegah form disubmit oleh browser
+		this.errors.clear.call(this);
 
 		this.collection.create({
 			name: this.$('#item-create-name').val(),
@@ -294,6 +295,14 @@ item.errors = {
 		console.log(err);
 	},
 
+	// Menghapus tampilan pesan error dari setiap form.
+	clear: function() {
+		const fields = ['name', 'code', 'amount'];
+		fields.forEach(field => {
+			this.$(`#item-${field}-error`).html('');
+		});
+	}
+
 };
 
 // Halaman-halaman di dalam bagian item.
@@ -306,6 +315,9 @@ item.pages = {
 
 	// Berganti ke page index dari item.
 	index: function(view) {
+		// membersihkan error yang ada pada page form ketika pindah ke page index.
+		this.errors.clear.call(this);
+
 		// membersihkan form-form ketika berpindah ke page index.
 		this.pages.clearCreateForm.call(this);
 
