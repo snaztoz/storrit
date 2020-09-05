@@ -43,9 +43,18 @@ item.Model = Backbone.Model.extend({
 
 	// Memvalidasi data sebelum dikirimkan ke server.
 	validate: function(attrs, option) {
-		// semua field harus diisi
-		if ([attrs.name, attrs.code, attrs.amountUnit].includes('')) {
-			return 'empty-field';
+		strFields = {
+			name: attrs.name,
+			code: attrs.code,
+			amountUnit: attrs.amountUnit,
+		};
+
+		for (let field in strFields) {
+			if (Object.prototype.hasOwnProperty.call(strFields, field)) {
+				if (strFields[field] === '') {
+					return `empty-${field}`;
+				}
+			}
 		}
 
 		// jumlah harus berupa angka (jika kosong dianggap sebagai NaN)
