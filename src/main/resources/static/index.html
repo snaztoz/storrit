@@ -77,17 +77,26 @@
 				<h4 class="my-4">Menambahkan barang baru ke penyimpanan</h4>
 				<form class="col-sm-8">
 					<div class="form-group">
-						<label for="item-name">Nama barang</label>
+						<label for="item-name">
+							Nama barang
+							<small id="item-name-error" class="ml-2 text-danger"></small>
+						</label>
 						<input type="text" id="item-create-name" class="form-control" name="item-create-name" placeholder="nama">
 					</div>
 
 					<div class="form-group">
-						<label for="item-code">Kode barang</label>
+						<label for="item-code">
+							Kode barang
+							<small id="item-code-error" class="ml-2 text-danger"></small>
+						</label>
 						<input type="text" id="item-create-code" class="form-control" name="item-create-code" placeholder="kode" aria-describedBy="itemCodeHelp">
 						<small id="itemCodeHelp" class="form-text text-muted">Secara default, kode untuk barang ini adalah ...</small>
 					</div>
 
-					<label for="item-amount">Jumlah barang</label>
+					<label for="item-amount">
+						Jumlah barang
+						<small id="item-amount-error" class="ml-2 text-danger"></small>
+					</label>
 					<div class="form-group form-row">
 						<div class="col-8">
 							<input type="text" id="item-create-amount" class="form-control" name="item-create-amount" placeholder="jumlah">

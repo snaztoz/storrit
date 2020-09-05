@@ -43,28 +43,33 @@ item.Model = Backbone.Model.extend({
 
 	// Memvalidasi data sebelum dikirimkan ke server.
 	validate: function(attrs, option) {
-		strFields = {
-			name: attrs.name,
-			code: attrs.code,
-			amountUnit: attrs.amountUnit,
+		err = {
+			field: '',
+			error: '',
 		};
 
-		for (let field in strFields) {
-			if (Object.prototype.hasOwnProperty.call(strFields, field)) {
-				if (strFields[field] === '') {
-					return `empty-${field}`;
-				}
+		for (let attr in attrs) {
+			if (attr === 'amount') continue;
+
+			if (attrs[attr] === '') {
+				err.field = attr;
+				err.error = 'empty-field';
+				return err;
 			}
 		}
 
 		// jumlah harus berupa angka (jika kosong dianggap sebagai NaN)
 		if (Number.isNaN(attrs.amount)) {
-			return 'amount-not-a-number';
+			err.field = 'amount';
+			err.error = 'not-a-number';
+			return err;
 		}
 
 		// jumlah tidak dapat negatif
 		if (attrs.amount < 0) {
-			return 'negative-amount';
+			err.field = 'amount';
+			err.error = 'negative';
+			return err;
 		}
 	},
 
@@ -258,16 +263,29 @@ item.errors = {
 		const page = this.$('div.active').index();
 
 		if (page === item.CREATE_PAGE) {
-			this.errors.invalidCreate(err);
+			this.errors.invalidCreate.call(this, err);
 		} else if (page === item.UPDATE_PAGE) {
-			this.errors.invalidUpdate(err);
+			this.errors.invalidUpdate.call(this, err);
 		}
 	},
 
 	// Menangani error pada validasi sisi klien ketika ingin membuat
 	// barang baru di server.
 	invalidCreate: function(err) {
-		console.log(err);
+		let errMsg;
+
+		if (err.error === 'empty-field')        { errMsg = 'Tidak boleh kosong'; }
+		else if (err.error === 'not-a-number')  { errMsg = 'Jumlah harus angka'; }
+		else if (err.error === 'negative')      { errMsg = 'Jumlah tidak boleh negatif'; }
+
+		// karena field amountUnit menempel pada amount, sehingga error
+		// yang terjadi di antara keduanya akan ditampilkan dalam satu
+		// elemen yang sama.
+		if (err.field === 'amountUnit') {
+			err.field = 'amount';
+		}
+
+		this.$(`#item-${err.field}-error`).html(errMsg);
 	},
 
 	// Menangani error pada validasi sisi klien ketika ingin mengupdate
