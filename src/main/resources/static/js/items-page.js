@@ -107,9 +107,17 @@ item.View = Backbone.View.extend({
 	el: '#site-items-page',
 
 	events: {
-		'click .item-table-row':            function() {this.pages.update.call(this)},
-		'click #item-create-page-btn':      function() {this.pages.create.call(this)},
-		'click .item-table-page-back-btn':  function() {this.pages.index.call(this)},
+		'click .item-table-row': function() {
+			this.errors.clear.call(this);
+			this.pages.update.call(this);
+		},
+
+		'click #item-create-page-btn': function() {
+			this.errors.clear.call(this);
+			this.pages.create.call(this);
+		},
+
+		'click .item-table-page-back-btn': function() {this.pages.index.call(this)},
 
 		'click #item-create-btn':           'createItem',
 		'click #item-update-btn':           'updateItem',
@@ -196,7 +204,6 @@ item.View = Backbone.View.extend({
 	// Menyimpan item baru di server.
 	createItem: function(event) {
 		event.preventDefault(); // mencegah form disubmit oleh browser
-		this.errors.clear.call(this);
 
 		this.collection.create({
 			name: this.$('#item-create-name').val(),
@@ -214,7 +221,7 @@ item.View = Backbone.View.extend({
 
 	// Mengupdate data item di server.
 	updateItem: function(event) {
-		event.preventDefault();
+		event.preventDefault(); // mencegah form disubmit oleh browser
 
 		let newAmount = parseInt(this.$('#item-update-amount').val());
 
@@ -308,17 +315,12 @@ item.pages = {
 
 	// Berganti ke page create new item.
 	create: function() {
+		this.pages.clearCreateForm.call(this);
 		this.$el.carousel(item.CREATE_PAGE);
 	},
 
 	// Berganti ke page index dari item.
 	index: function(view) {
-		// membersihkan error yang ada pada page form ketika pindah ke page index.
-		this.errors.clear.call(this);
-
-		// membersihkan form-form ketika berpindah ke page index.
-		this.pages.clearCreateForm.call(this);
-
 		this.$el.carousel(item.INDEX_PAGE);
 	},
 
