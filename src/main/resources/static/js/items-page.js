@@ -203,10 +203,7 @@ item.View = Backbone.View.extend({
 			amountUnit: this.$('#item-create-amount-unit').val()
 		}, {
 			validate: true,
-			success: () => {
-				this.pages.index.call(this);
-				this.displayCreationSucceed;
-			},
+			success: this.pages.index.bind(this),
 			error: (err) => {
 				console.log(err);
 			},
@@ -227,22 +224,12 @@ item.View = Backbone.View.extend({
 
 		this.collection.selectedModel.save({amount: newAmount}, {
 			patch: true,
-			success: () => {
-				this.pages.index.call(this);
-			},
+			success: this.pages.index.bind(this),
 			error: (resp) => {
 				console.log("Update failed");
 				console.log(resp);
 			}
 		});
-	},
-
-	// Menampilkan pesan ketika sebuah barang berhasil ditambahkan.
-	//
-	// BELUM DIIMPLEMENTASIKAN
-	displayCreationSucceed: function(obj) {
-		console.log(obj);
-		console.log("BARANG SUKSES DITAMBAHKAN");
 	},
 
 	// Menampilkan pesan ketika terjadi error pada validasi sisi server.
