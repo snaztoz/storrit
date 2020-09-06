@@ -292,15 +292,24 @@ item.errors = {
 	// Menangani error pada validasi sisi klien ketika ingin mengupdate
 	// data barang di server.
 	invalidUpdate: function(err) {
-		console.log(err);
+		let errMsg;
+
+		if (err.error === 'not-a-number')   { errMsg = 'Jumlah harus berupa angka'; }
+		else if (err.error === 'negative')  { errMsg = 'Jumlah tidak dapat negatif'; }
+
+		this.$(`#item-update-${err.field}-error`).html(errMsg);
 	},
 
 	// Menghapus tampilan pesan error dari setiap form.
 	clear: function() {
+		// field create item
 		const fields = ['name', 'code', 'amount'];
 		fields.forEach(field => {
 			this.$(`#item-create-${field}-error`).html('');
 		});
+
+		// field update item
+		this.$(`#item-update-amount-error`).html('');
 	}
 
 };
