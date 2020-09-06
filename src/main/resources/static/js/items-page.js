@@ -113,6 +113,7 @@ item.View = Backbone.View.extend({
 		},
 
 		'click #item-create-page-btn': function() {
+			this.pages.clearCreateForm.call(this);
 			this.errors.clear.call(this);
 			this.pages.create.call(this);
 		},
@@ -128,7 +129,7 @@ item.View = Backbone.View.extend({
 	preinitialize: function() {
 		this.errors = item.errors;
 		this.pages = item.pages;
-		this.templates = item.templates; // memasukkan item.templates ke class ini
+		this.templates = item.templates;
 		this.render();
 	},
 
@@ -204,6 +205,10 @@ item.View = Backbone.View.extend({
 	// Menyimpan item baru di server.
 	createItem: function(event) {
 		event.preventDefault(); // mencegah form disubmit oleh browser
+
+		// menghapus error yang mungkin terjadi pada event submit
+		// sebelumnya
+		this.errors.clear.call(this);
 
 		this.collection.create({
 			name: this.$('#item-create-name').val(),
@@ -315,12 +320,11 @@ item.pages = {
 
 	// Berganti ke page create new item.
 	create: function() {
-		this.pages.clearCreateForm.call(this);
 		this.$el.carousel(item.CREATE_PAGE);
 	},
 
 	// Berganti ke page index dari item.
-	index: function(view) {
+	index: function() {
 		this.$el.carousel(item.INDEX_PAGE);
 	},
 
