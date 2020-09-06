@@ -31,7 +31,9 @@ item.Model = Backbone.Model.extend({
 		link = response._links.self.href;
 		id = parseInt(link.substring(link.lastIndexOf('/') + 1));
 
-		// memasang attribute id pada model
+		// memasang attribute id pada model, hal ini diperlukan agar
+		// Backbone dapat mengakses tiap item di server sesuai dengan
+		// id-nya
 		this.set('id', id);
 		return ({
 			name: response.name,
