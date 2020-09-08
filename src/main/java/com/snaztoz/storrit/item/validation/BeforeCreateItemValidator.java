@@ -48,8 +48,10 @@ public class BeforeCreateItemValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "item.name.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "item.code.required");
 
-        if (! isUniqueProduct(item.getName(), item.getCode()) ) {
-            errors.reject("item.exist");
+        if (repository.findByName(item.getName()) != null) {
+            errors.reject("item.exist", "the name is already taken");
+        } else if (repository.findByCode(item.getCode()) != null) {
+            errors.reject("item.exist", "the code is already taken");
         }
 
         if (item.getAmount() < 0) {
@@ -57,19 +59,6 @@ public class BeforeCreateItemValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amountUnit", "item.amountUnit.required");
-    }
-
-    /**
-     * Method ini akan memastikan bahwa nama dan juga kode yang
-     * akan digunakan belum ada di database.
-     *
-     * @param name Nama produk.
-     * @param code Kode produk.
-     * @return Apakah nama dan kode produk unik atau tidak.
-     */
-    private boolean isUniqueProduct(String name, String code) {
-        return repository.findByName(name) == null
-                && repository.findByCode(code) == null;
     }
 
 }

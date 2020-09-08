@@ -218,7 +218,7 @@ item.View = Backbone.View.extend({
 		}, {
 			validate: true,
 			success: this.pages.index.bind(this),
-			error: (err) => {
+			error: (model, err) => {
 				console.log(err);
 			},
 		});
