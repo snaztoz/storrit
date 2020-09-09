@@ -219,7 +219,11 @@ item.View = Backbone.View.extend({
 			validate: true,
 			success: this.pages.index.bind(this),
 			error: (model, err) => {
-				console.log(err);
+				this.errors.duplicateItem.call(this, err.responseJSON.errors);
+
+				// mencegah item yang gagal melewati validasi server dimasukkan
+				// ke dalam collection
+				this.collection.fetch();
 			},
 		});
 	},
@@ -299,6 +303,26 @@ item.errors = {
 		else if (err.error === 'negative')  { errMsg = 'Jumlah tidak dapat negatif'; }
 
 		this.$(`#item-update-${err.field}-error`).html(errMsg);
+	},
+
+	// Menangani error yang terjadi ketika ingin menyimpan item baru, namun
+	// nama/kode dari item tersebut sudah ada di database (tidak boleh ada
+	// item yang duplikat).
+	duplicateItem: function(err) {
+		let field;
+		let fieldTranslate;
+
+		if (err === 'the name is already taken') {
+			field = 'name';
+			fieldTranslate = 'Nama';
+		} else if (err === 'the code is already taken') {
+			field = 'code';
+			fieldTranslate = 'Kode';
+		}
+
+		this.$(`#item-create-${field}-error`).html(
+				`${fieldTranslate} barang tidak boleh sama dengan\
+				yang sudah ada di penyimpanan`);
 	},
 
 	// Menghapus tampilan pesan error dari setiap form.
