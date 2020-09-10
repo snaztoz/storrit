@@ -250,14 +250,6 @@ item.View = Backbone.View.extend({
 		});
 	},
 
-	// Menampilkan pesan ketika terjadi error pada validasi sisi server.
-	//
-	// BELUM DIIMPLEMENTASIKAN
-	displayServerErrors: function(obj) {
-		console.log("SERVER ERROR");
-		console.log(obj);
-	},
-
 });
 
 // Kasus error yang mungkin terjadi pada item section.
