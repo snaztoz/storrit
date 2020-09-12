@@ -122,6 +122,7 @@ item.View = Backbone.View.extend({
 
 		'click #item-create-btn':           'createItem',
 		'click #item-update-btn':           'updateItem',
+		'click #item-delete-btn':           'deleteItem',
 	},
 
 	// Render item section sebelum event-event terkait section ini dikaitkan
@@ -137,7 +138,7 @@ item.View = Backbone.View.extend({
 	// dibuat.
 	initialize: function() {
 		this.listenTo(this.collection, 'request', this.renderLoading);
-		this.listenTo(this.collection, 'change sync', this.renderRows);
+		this.listenTo(this.collection, 'change sync destroy', this.renderRows);
 		this.listenTo(this.collection, 'invalid', this.errors.invalidInput);
 		this.collection.fetch();
 
@@ -248,6 +249,22 @@ item.View = Backbone.View.extend({
 				console.log(resp);
 			}
 		});
+	},
+
+	deleteItem: function(event) {
+		event.preventDefault();
+
+		this.collection.selectedModel.destroy({
+			success: () => {
+				// agar model yang baru dihapus dapat dihilangkan oleh
+				// garbage collector.
+				this.collection.selectedModel = null;
+				this.pages.index.call(this);
+			},
+			error: () => {
+				console.log("Deletion failed");
+			}
+		})
 	},
 
 });
