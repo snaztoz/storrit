@@ -120,9 +120,9 @@ item.View = Backbone.View.extend({
 
 		'click .item-table-page-back-btn': function() {this.pages.index.call(this)},
 
-		'click #item-create-btn':           'createItem',
-		'click #item-update-btn':           'updateItem',
-		'click #item-delete-btn':           'deleteItem',
+		'click #item-create-btn': 'createItem',
+		'click #item-update-btn': 'updateItem',
+		'click #item-delete-btn': 'deleteItem',
 	},
 
 	// Render item section sebelum event-event terkait section ini dikaitkan
