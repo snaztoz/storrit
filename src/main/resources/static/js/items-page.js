@@ -251,6 +251,7 @@ item.View = Backbone.View.extend({
 		});
 	},
 
+	// Menghapus data item di server.
 	deleteItem: function(event) {
 		event.preventDefault();
 
