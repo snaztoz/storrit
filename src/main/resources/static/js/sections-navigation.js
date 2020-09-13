@@ -14,7 +14,7 @@ navigation.View = Backbone.View.extend({
 	
 	events: {
 		'click #section-item': 'renderItemSection',
-		'click #section-activity': 'renderActivitySection',
+		//'click #section-activity': 'renderActivitySection',
 	},
 
 	// Akan dijalankan ketika instance dari view ini pertama kali
@@ -37,10 +37,10 @@ navigation.View = Backbone.View.extend({
 	// page-page dari item section melalui method initialize()-nya.
 	//
 	// BELUM DIIMPLEMENTASIKAN
-	renderActivitySection: function() {
-		$('#main-section').html("TES GAN");
-		return this;
-	},
+	//renderActivitySection: function() {
+	//	$('#main-section').html("TES GAN");
+	//	return this;
+	//},
 
 });
 
